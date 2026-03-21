@@ -1,0 +1,108 @@
+app = (
+    div = theme"background-glow"
+
+    nav = (
+        a = txt"NEXUS-WA Engine" url"#" theme"nav-logo"
+        a = txt"Nexus Titan" url"https://tiwut.org/nexus" theme"nav-btn"
+        a = txt"Get Nexus WA" url"https://github.com/tiwut/NEXUS-WA-DOM-engine" theme"nav-btn"
+    ) theme"navbar"
+
+    main = (
+
+        div = (
+            section = (
+                h1 = txt"Nexus Web Assembly" theme"hero-title"
+                p = txt"The most advanced declarative DOM engine. Translate pure configurations into complex, high-performance user interfaces with zero JavaScript required." theme"hero-sub"
+            ) theme"hero-section" id"intro"
+
+            section = (
+                h2 = txt"The Virtual Tree Syntax" theme"doc-h2"
+                p = (
+                    span = txt"Nexus-WA uses a highly readable, nested assignment syntax instead of messy HTML tags. Everything follows the pattern: "
+                    span = txt"element = property-name ( children )" theme"inline-code"
+                ) theme"doc-p"
+
+                div = (
+                    h3 = txt"Creating Elements" theme"card-h3"
+                    p = txt"To create a div with a title and a paragraph:" theme"doc-p"
+                    div = (
+                        span = txt"container = (" theme"code-hl"
+                        span = txt"    h1 = txt”Hello World  theme title-class”" theme"code-str"
+                        span = txt"    p = txt”This is Nexus-WA.”" theme"code-str"
+                        span = txt") theme box" theme"code-hl"
+                    ) theme"code-block"
+                ) theme"bento-card" work"hover-track" id"tree"
+            )
+
+            section = (
+                h2 = txt"12,000+ Native Web APIs" theme"doc-h2"
+                p = (
+                    span = txt"Unlike traditional frameworks that restrict you to predefined classes, Nexus-WA reads the browser's internal "
+                    span = txt"CSSOM" theme"inline-code"
+                    span = txt" at runtime. This means EVERY CSS property exists natively."
+                ) theme"doc-p"
+
+                div = (
+                    div = (
+                        button = txt"Hover Me" theme"btn-ghost"
+                        button = txt"Click Me" theme"btn-ghost" work"test-alert"
+                    ) theme"preview-box"
+
+                    div = (
+                        span = txt"btn-ghost = background”transparent” color”#fff” border”1px-solid”" theme"code-hl"
+                    ) theme"code-block"
+                ) theme"bento-card" work"hover-track" id"apis"
+            )
+
+            section = (
+                h2 = txt"Native Media Objects" theme"doc-h2"
+                p = txt"Integrating media is seamless. Because Nexus-WA understands standard HTML5 properties natively, you can pass video controls directly to the object." theme"doc-p"
+
+                div = (
+                    video = src"/assets/videos/Tiwut_universe_main_8454656.webm" autoplay"true" loop"true" muted"true" playsinline"true" width"100%" border-radius"8px" border"1px solid rgba(255,255,255,0.1)"
+                    
+                    div = (
+                        span = txt"video = src”movie.mp4” autoplay”true” loop”true”" theme"code-hl"
+                    ) theme"code-block"
+                ) theme"bento-card" work"hover-track" id"media"
+            )
+
+            section = (
+                h2 = txt"NXWA Logic Lexicon" theme"doc-h2"
+                p = txt"The work.nxwa file acts as your Javascript replacement. It attaches highly optimized event listeners to your components." theme"doc-p"
+
+                div = (
+                    div = (
+                        span = txt"trigger" theme"table-head"
+                        span = txt"Action Concept" theme"table-head"
+                    ) theme"table-grid"
+                    div = (
+                        span = txt"trigger-click" theme"table-cell"
+                        span = txt"Listens for a standard mouse click." theme"doc-p" margin"0"
+                    ) theme"table-grid"
+                    div = (
+                        span = txt"trigger-mousemove" theme"table-cell"
+                        span = txt"Tracks mouse movement (used for our card glow effects)." theme"doc-p" margin"0"
+                    ) theme"table-grid"
+                    div = (
+                        span = txt"action-scroll" theme"table-cell"
+                        span = txt"Smoothly scrolls to the designated target ID." theme"doc-p" margin"0"
+                    ) theme"table-grid"
+                    div = (
+                        span = txt"action-play" theme"table-cell"
+                        span = txt"Targets a media tag and triggers native play." theme"doc-p" margin"0"
+                    ) theme"table-grid"
+                ) theme"bento-card" work"hover-track" id"lexicon"
+            )
+            section = (
+                h2 = txt"License" theme"doc-h2"
+                p = txt"This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0)."
+
+                div = (
+                	p = txt"Copyright © 2026 Tiwut Nexus Web Assembly Project. All rights reserved."
+                ) theme"bento-card" work"hover-track" id"lexicon"
+            )
+
+        ) theme"main-content"
+    ) theme"docs-layout"
+) theme"body-global"

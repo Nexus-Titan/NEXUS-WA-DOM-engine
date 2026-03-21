@@ -1,0 +1,5 @@
+scroll-to = trigger"click" action"scroll" target"url" prevent"true"
+
+hover-track = trigger"mousemove" action"track-mouse"
+
+test-alert = trigger"click" action"alert" msg"Nexus-WA Event Engine works perfectly! Zero JavaScript needed."
