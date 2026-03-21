@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style id="nxwa-theme-styles"></style>
+</head>
+<body>
+    <div id="nexus-app" style="background:#000; color:#fff; height:100vh; display:flex; justify-content:center; align-items:center; font-family:sans-serif;">
+        Initializing Nexus-WA Core...
+    </div>
+
+    <script>
+        class NexusWAEngine {
+            constructor() {
+                this.metaNodes =[]; this.themeNodes = []; this.sysNodes =[]; this.workActions = {};
+                this.validCssProps = new Set();
+                for (let prop in document.documentElement.style) {
+                    this.validCssProps.add(prop.replace(/[A-Z]/g, m => '-' + m.toLowerCase()));
+                }
+            }
+
+            parseNXWA(text) {
+                if (!text) return[];
+                const tokens = [...text.matchAll(/([a-zA-Z0-9_:@-]+)|"([^"]*)"|([=();])/g)].map(m => m[1] || m[2] || m[3]);
+                let i = 0;
+                const parseNode = () => {
+                    if (i >= tokens.length) return null;
+                    let id = tokens[i++];
+                    if (tokens[i] !== '=') { i--; return null; }
+                    i++; 
+                    let node = { tag: id, children: [], props: {} };
+                    if (tokens[i] === '(') {
+                        i++;
+                        while (i < tokens.length && tokens[i] !== ')') {
+                            let child = parseNode();
+                            if (child) node.children.push(child);
+                            if (tokens[i] === ';') i++; 
+                        }
+                        i++; 
+                    }
+                    while (i < tokens.length && ![';', ')', '('].includes(tokens[i])) {
+                        if (i + 1 < tokens.length && tokens[i+1] === '=') break; 
+                        let pName = tokens[i++]; let pVal = tokens[i++];
+                        if (pName && pVal !== undefined) node.props[pName] = pVal;
+                    }
+                    return node;
+                };
+                let nodes =[];
+                while (i < tokens.length) {
+                    let node = parseNode();
+                    if (node) nodes.push(node);
+                    if (tokens[i] === ';') i++;
+                }
+                return nodes;
+            }
+
+            applyMeta() {
+                this.metaNodes.forEach(node => {
+                    if (node.tag === 'page') {
+                        if (node.props.title) document.title = node.props.title;
+                        if (node.props.lang) document.documentElement.lang = node.props.lang;
+                    } else if (['meta', 'link', 'script'].includes(node.tag)) {
+                        let el = document.createElement(node.tag);
+                        Object.entries(node.props).forEach(([k, v]) => el.setAttribute(k, v));
+                        document.head.appendChild(el);
+                    }
+                });
+            }
+
+            applyTheme() {
+                let cssOutput = '';
+                this.themeNodes.forEach(node => {
+                    if (node.tag.startsWith('@keyframes')) {
+                        let frames = '';
+                        for (let[prop, val] of Object.entries(node.props)) frames += `${prop} { ${val} } `;
+                        cssOutput += `${node.tag} { ${frames} }\n`;
+                        return;
+                    }
+
+                    let rules = '';
+                    for (let [prop, val] of Object.entries(node.props)) {
+                        rules += `${prop}: ${val}; `;
+                    }
+                    
+                    if (node.tag.includes(':')) {
+                        let parts = node.tag.split(':');
+                        cssOutput += `.${parts[0]}:${parts.slice(1).join(':')} { ${rules} }\n`;
+                    } else {
+                        cssOutput += `.${node.tag} { ${rules} }\n`;
+                    }
+                });
+                document.getElementById('nxwa-theme-styles').textContent = cssOutput;
+            }
+
+            applyWork() { this.workNodes.forEach(n => this.workActions[n.tag] = n.props); }
+
+            renderDOM(node) {
+                const tags =['div','span','a','img','video','audio','iframe','canvas','nav','main','header','footer','section','h1','h2','h3','p','input','button','textarea'];
+                const tagName = tags.includes(node.tag) ? node.tag : (node.props.url ? 'a' : (node.props.src ? 'img' : 'div'));
+                const el = document.createElement(tagName);
+
+                const booleans =['autoplay', 'loop', 'muted', 'controls', 'playsinline'];
+
+                for (let [key, val] of Object.entries(node.props)) {
+                    if (key === 'txt') el.innerText = val;
+                    else if (key === 'html') el.innerHTML = val;
+                    else if (key === 'theme') el.className = val;
+                    else if (key === 'work') {} 
+                    else if (booleans.includes(key)) { if(val === 'true') el.setAttribute(key, ''); }
+                    else el.setAttribute(key, val); 
+                }
+
+                if (node.props.work && this.workActions[node.props.work]) {
+                    const act = this.workActions[node.props.work];
+                    
+                    if (act.action === 'track-mouse') {
+                        el.addEventListener('mousemove', e => {
+                            const rect = el.getBoundingClientRect();
+                            el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                            el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                        });
+                    }
+                    
+                    el.addEventListener(act.trigger || 'click', (e) => {
+                        if (tagName === 'a' && act.prevent) e.preventDefault();
+                        if (act.action === 'link') window.location.href = act.url;
+                        else if (act.action === 'scroll') document.querySelector(act.target).scrollIntoView({behavior: 'smooth'});
+                        else if (act.action === 'play-media') document.getElementById(act.target).play();
+                        else if (act.action === 'toggle-state') {
+                            const t = document.getElementById(act.target);
+                            t.style.opacity = t.style.opacity === '0' ? '1' : '0';
+                        }
+                    });
+                }
+
+                node.children.forEach(c => el.appendChild(this.renderDOM(c)));
+                return el;
+            }
+
+            applySys() {
+                const app = document.getElementById('nexus-app');
+                app.innerHTML = ''; app.style = '';
+                this.sysNodes.forEach(n => app.appendChild(this.renderDOM(n)));
+            }
+
+            async boot() {
+                try {
+                    const fetches =['meta.nxwa', 'theme.nxwa', 'work.nxwa', 'sys.nxwa'].map(f => fetch(f).then(r => r.ok ? r.text() : ''));
+                    const [meta, theme, work, sys] = await Promise.all(fetches);
+
+                    this.metaNodes = this.parseNXWA(meta);
+                    this.themeNodes = this.parseNXWA(theme);
+                    this.workNodes = this.parseNXWA(work);
+                    this.sysNodes = this.parseNXWA(sys);
+
+                    this.applyMeta(); this.applyTheme(); this.applyWork(); this.applySys();
+                } catch (err) {
+                    console.error("NXWA Engine Error:", err);
+                }
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => new NexusWAEngine().boot());
+    </script>
+</body>
+</html>
