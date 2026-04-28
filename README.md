@@ -1,4 +1,4 @@
-# 🌌 Nexus-WA (Web Assembly) 
+# Nexus-WA (Web Assembly) 
 ### **The Next-Generation Declarative Web Engine.**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
@@ -11,18 +11,18 @@ Designed for the **2026 High-End Web Experience**, Nexus-WA provides direct acce
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-*   **⚡ Zero-HTML/JS Boilerplate:** Build entire high-end applications using only `.nxwa` configuration files.
-*   **🧬 12,000+ Native APIs:** The engine maps directly to the browser's CSSOM and DOM API. If the browser supports it, Nexus-WA supports it natively.
-*   **🖱️ Advanced Logic Engine:** Handle complex interactions like Mouse-Tracking (Glassmorphism Glow), smooth scrolling, and media control via `work.nxwa`—without writing JavaScript.
-*   **🎬 Native Media Integration:** Seamlessly embed and control `<video>`, `<iframe>`, and `<canvas>` objects.
-*   **🎨 Ultra-Modern Design:** Built-in support for 2026 design trends: Deep Dark Mode, Glassmorphism, and Fluid Typography.
-*   **🔗 Nexus-Titan Ready:** Fully compatible with the **Nexus-Titan (Python)** interpreter for powerful full-stack backend integration.
+*   **Zero-HTML/JS Boilerplate:** Build entire high-end applications using only `.nxwa` configuration files.
+*   **12,000+ Native APIs:** The engine maps directly to the browser's CSSOM and DOM API. If the browser supports it, Nexus-WA supports it natively.
+*   **Advanced Logic Engine:** Handle complex interactions like Mouse-Tracking (Glassmorphism Glow), smooth scrolling, and media control via `work.nxwa`—without writing JavaScript.
+*   **Native Media Integration:** Seamlessly embed and control `<video>`, `<iframe>`, and `<canvas>` objects.
+*   **Ultra-Modern Design:** Built-in support for 2026 design trends: Deep Dark Mode, Glassmorphism, and Fluid Typography.
+*   **Nexus-Titan Ready:** Fully compatible with the **Nexus-Titan (Python)** interpreter for powerful full-stack backend integration.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 Nexus-WA runs as a client-side engine. Because it fetches configuration files, you need to run it via a local web server.
 
@@ -43,7 +43,7 @@ Nexus-WA runs as a client-side engine. Because it fetches configuration files, y
 
 ---
 
-## 📂 File Structure
+## File Structure
 
 | File | Description |
 | :--- | :--- |
@@ -55,7 +55,7 @@ Nexus-WA runs as a client-side engine. Because it fetches configuration files, y
 
 ---
 
-## 🛠️ The NXWA Syntax
+## The NXWA Syntax
 
 Nexus-WA uses the **Virtual Tree** pattern. It is cleaner than HTML and more powerful than JSON.
 
@@ -82,13 +82,13 @@ glow-effect = trigger"mousemove" action"track-mouse"
 
 ---
 
-## 🏗️ Future Vision: Nexus-Titan Integration
+## Future Vision: Nexus-Titan Integration
 
 Nexus-WA is built to be the frontend for **Nexus-Titan**. While the `.nxwa` engine handles the high-end rendering in the browser, the **Nexus-Titan (Python)** interpreter works on the server side to inject dynamic data, handle database queries, and manage authentication.
 
 ---
 
-## ⚖️ License
+## License
 
 This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. 
 
