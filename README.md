@@ -28,7 +28,7 @@ Nexus-WA runs as a client-side engine. Because it fetches configuration files, y
 
 1.  **Clone the Repository:**
     ```bash
-    git clone https://github.com/tiwut/NEXUS-WA-DOM-engine.git
+    git clone https://github.com/Nexus-Titan/NEXUS-WA-DOM-engine.git
     cd NEXUS-WA-DOM-engine
     ```
 
