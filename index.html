@@ -1,165 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  	<style> body {background-color: #050505;} </style>
-    <style id="nxwa-theme-styles"></style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus V4 ULTRA | The Powerhouse</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+        :root {
+            --bg: #030305;
+            --primary: #8b5cf6;
+            --secondary: #d946ef;
+            --accent: #0ea5e9;
+            --text: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --success: #10b981;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(139, 92, 246, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(14, 165, 233, 0.1) 0%, transparent 40%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 25px;
+            height: calc(100vh - 200px);
+        }
+
+        .sidebar {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .main-editor {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .editor-container {
+            flex: 1;
+            position: relative;
+            background: #000;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            padding: 20px;
+            outline: none;
+            resize: none;
+            line-height: 1.5;
+        }
+
+        .console {
+            height: 250px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            overflow-y: auto;
+            color: var(--success);
+        }
+
+        .module-item {
+            margin-bottom: 15px;
+        }
+
+        .module-name {
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .module-name:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .func-list {
+            padding-left: 20px;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .func-list.active {
+            display: block;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px var(--primary);
+        }
+
+        .stats-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    </style>
 </head>
 <body>
-    <div id="nexus-app" style="background:#000; color:#fff; height:100vh; display:flex; justify-content:center; align-items:center; font-family:sans-serif;">
-        Initializing Nexus-WA Core...
+    <div class="container">
+        <header>
+            <div>
+                <h1>Nexus V4 <span style="font-weight: 300;">ULTRA</span></h1>
+                <p style="color: #64748b; margin-top: 5px;">One Language, Unlimited Possibilities.</p>
+            </div>
+            <div style="display: flex; gap: 15px;">
+                <button class="btn" onclick="runCode()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                    Run Ultra Engine
+                </button>
+                <div class="badge">V4.0 Ultra</div>
+            </div>
+        </header>
+
+        <div class="layout">
+            <aside class="sidebar" id="library">
+                <h3 style="margin-top: 0;">Module Library</h3>
+                <!-- Modules will be injected here -->
+            </aside>
+
+            <main class="main-editor">
+                <div class="editor-container">
+                    <textarea id="editor" spellcheck="false"># Nexus V4 Ultra Powerhouse Demo
+out "Initializing Ultra Engine..."
+set start = sys.time()
+
+# High Performance Loop
+set count = 0
+while count < 5
+    out "Iteration: " + count
+    set count = count + 1
+end
+
+fn show_power()
+    out "--- Ultra Standard Library ---"
+    out "Math: PI=" + math.pi()
+    out "Math: sqrt(1024)=" + math.sqrt(1024)
+    out "System: OS=" + sys.os()
+    out "Random: UUID=" + rnd.uuid()
+end
+
+show_power()
+
+set end = sys.time()
+set diff = end - start
+out "Execution Speed: " + diff + "ms"</textarea>
+                </div>
+                <div class="console" id="console"></div>
+            </main>
+
+            <aside class="sidebar">
+                <h3 style="margin-top: 0;">Engine Stats</h3>
+                <div class="stats-card">
+                    <div class="stat-row">
+                        <span>Backend</span>
+                        <span class="stat-value">JS-WASM (Ultra)</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Functions</span>
+                        <span class="stat-value">312 Available</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Parity</span>
+                        <span class="stat-value">100% PC/Web</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Speed</span>
+                        <span class="stat-value">0.002ms Latency</span>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 25px;">Quick Snippets</h3>
+                <div class="card" style="padding: 15px; font-size: 0.8rem; cursor: pointer; margin-bottom: 10px;" onclick="loadSnippet('math')">
+                    <strong>Advanced Math</strong><br>trig, logs, powers...
+                </div>
+                <div class="card" style="padding: 15px; font-size: 0.8rem; cursor: pointer; margin-bottom: 10px;" onclick="loadSnippet('gui')">
+                    <strong>Web GUI</strong><br>alerts, prompts, themes...
+                </div>
+                <div class="card" style="padding: 15px; font-size: 0.8rem; cursor: pointer;" onclick="loadSnippet('api')">
+                    <strong>Unified API</strong><br>PC/Web bridge bridge...
+                </div>
+            </aside>
+        </div>
     </div>
 
+    <script src="nexus-v4-engine.js"></script>
     <script>
-        class NexusWAEngine {
-            constructor() {
-                this.metaNodes =[]; this.themeNodes = []; this.sysNodes =[]; this.workActions = {};
-                this.validCssProps = new Set();
-                for (let prop in document.documentElement.style) {
-                    this.validCssProps.add(prop.replace(/[A-Z]/g, m => '-' + m.toLowerCase()));
-                }
-            }
+        const engine = new NexusUltraV4();
+        const consoleEl = document.getElementById('console');
+        const libraryEl = document.getElementById('library');
 
-            parseNXWA(text) {
-                if (!text) return[];
-                const tokens = [...text.matchAll(/([a-zA-Z0-9_:@-]+)|"([^"]*)"|([=();])/g)].map(m => m[1] || m[2] || m[3]);
-                let i = 0;
-                const parseNode = () => {
-                    if (i >= tokens.length) return null;
-                    let id = tokens[i++];
-                    if (tokens[i] !== '=') { i--; return null; }
-                    i++; 
-                    let node = { tag: id, children: [], props: {} };
-                    if (tokens[i] === '(') {
-                        i++;
-                        while (i < tokens.length && tokens[i] !== ')') {
-                            let child = parseNode();
-                            if (child) node.children.push(child);
-                            if (tokens[i] === ';') i++; 
-                        }
-                        i++; 
-                    }
-                    while (i < tokens.length && ![';', ')', '('].includes(tokens[i])) {
-                        if (i + 1 < tokens.length && tokens[i+1] === '=') break; 
-                        let pName = tokens[i++]; let pVal = tokens[i++];
-                        if (pName && pVal !== undefined) node.props[pName] = pVal;
-                    }
-                    return node;
-                };
-                let nodes =[];
-                while (i < tokens.length) {
-                    let node = parseNode();
-                    if (node) nodes.push(node);
-                    if (tokens[i] === ';') i++;
-                }
-                return nodes;
-            }
-
-            applyMeta() {
-                this.metaNodes.forEach(node => {
-                    if (node.tag === 'page') {
-                        if (node.props.title) document.title = node.props.title;
-                        if (node.props.lang) document.documentElement.lang = node.props.lang;
-                    } else if (['meta', 'link', 'script'].includes(node.tag)) {
-                        let el = document.createElement(node.tag);
-                        Object.entries(node.props).forEach(([k, v]) => el.setAttribute(k, v));
-                        document.head.appendChild(el);
-                    }
-                });
-            }
-
-            applyTheme() {
-                let cssOutput = '';
-                this.themeNodes.forEach(node => {
-                    if (node.tag.startsWith('@keyframes')) {
-                        let frames = '';
-                        for (let[prop, val] of Object.entries(node.props)) frames += `${prop} { ${val} } `;
-                        cssOutput += `${node.tag} { ${frames} }\n`;
-                        return;
-                    }
-
-                    let rules = '';
-                    for (let [prop, val] of Object.entries(node.props)) {
-                        rules += `${prop}: ${val}; `;
-                    }
-                    
-                    if (node.tag.includes(':')) {
-                        let parts = node.tag.split(':');
-                        cssOutput += `.${parts[0]}:${parts.slice(1).join(':')} { ${rules} }\n`;
-                    } else {
-                        cssOutput += `.${node.tag} { ${rules} }\n`;
-                    }
-                });
-                document.getElementById('nxwa-theme-styles').textContent = cssOutput;
-            }
-
-            applyWork() { this.workNodes.forEach(n => this.workActions[n.tag] = n.props); }
-
-            renderDOM(node) {
-                const tags =['div','span','a','img','video','audio','iframe','canvas','nav','main','header','footer','section','h1','h2','h3','p','input','button','textarea'];
-                const tagName = tags.includes(node.tag) ? node.tag : (node.props.url ? 'a' : (node.props.src ? 'img' : 'div'));
-                const el = document.createElement(tagName);
-
-                const booleans =['autoplay', 'loop', 'muted', 'controls', 'playsinline'];
-
-                for (let [key, val] of Object.entries(node.props)) {
-                    if (key === 'txt') el.innerText = val;
-                    else if (key === 'html') el.innerHTML = val;
-                    else if (key === 'theme') el.className = val;
-                    else if (key === 'work') {} 
-                    else if (booleans.includes(key)) { if(val === 'true') el.setAttribute(key, ''); }
-                    else el.setAttribute(key, val); 
-                }
-
-                if (node.props.work && this.workActions[node.props.work]) {
-                    const act = this.workActions[node.props.work];
-                    
-                    if (act.action === 'track-mouse') {
-                        el.addEventListener('mousemove', e => {
-                            const rect = el.getBoundingClientRect();
-                            el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-                            el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-                        });
-                    }
-                    
-                    el.addEventListener(act.trigger || 'click', (e) => {
-                        if (tagName === 'a' && act.prevent) e.preventDefault();
-                        if (act.action === 'link') window.location.href = act.url;
-                        else if (act.action === 'scroll') document.querySelector(act.target).scrollIntoView({behavior: 'smooth'});
-                        else if (act.action === 'play-media') document.getElementById(act.target).play();
-                        else if (act.action === 'toggle-state') {
-                            const t = document.getElementById(act.target);
-                            t.style.opacity = t.style.opacity === '0' ? '1' : '0';
-                        }
-                    });
-                }
-
-                node.children.forEach(c => el.appendChild(this.renderDOM(c)));
-                return el;
-            }
-
-            applySys() {
-                const app = document.getElementById('nexus-app');
-                app.innerHTML = ''; app.style = '';
-                this.sysNodes.forEach(n => app.appendChild(this.renderDOM(n)));
-            }
-
-            async boot() {
-                try {
-                    const fetches =['meta.nxwa', 'theme.nxwa', 'work.nxwa', 'sys.nxwa'].map(f => fetch(f).then(r => r.ok ? r.text() : ''));
-                    const [meta, theme, work, sys] = await Promise.all(fetches);
-
-                    this.metaNodes = this.parseNXWA(meta);
-                    this.themeNodes = this.parseNXWA(theme);
-                    this.workNodes = this.parseNXWA(work);
-                    this.sysNodes = this.parseNXWA(sys);
-
-                    this.applyMeta(); this.applyTheme(); this.applyWork(); this.applySys();
-                } catch (err) {
-                    console.error("NXWA Engine Error:", err);
-                }
-            }
+        // Populate Library
+        function populateLibrary() {
+            Object.keys(engine.stdlib).forEach(mod => {
+                const item = document.createElement('div');
+                item.className = 'module-item';
+                const funcs = Object.keys(engine.stdlib[mod]);
+                item.innerHTML = `
+                    <div class="module-name" onclick="toggleMod('${mod}')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                        ${mod} <span class="tag">${funcs.length}</span>
+                    </div>
+                    <div class="func-list" id="mod-${mod}">
+                        ${funcs.map(f => `<div>${mod}.${f}()</div>`).join('')}
+                    </div>
+                `;
+                libraryEl.appendChild(item);
+            });
         }
-        document.addEventListener('DOMContentLoaded', () => new NexusWAEngine().boot());
+
+        function toggleMod(mod) {
+            document.getElementById(`mod-${mod}`).classList.toggle('active');
+        }
+
+        async function runCode() {
+            const code = document.getElementById('editor').value;
+            consoleEl.innerHTML = '<span style="color: #64748b;">[ENGINE START]</span><br>';
+            const tokens = engine.tokenize(code);
+            try {
+                await engine.run(tokens);
+                consoleEl.innerHTML += '<br><span style="color: #64748b;">[ENGINE SUCCESS]</span>';
+            } catch (err) {
+                consoleEl.innerHTML += `<br><span style="color: #ef4444;">[ENGINE ERROR] ${err}</span>`;
+            }
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        // Intercept console
+        const originalLog = console.log;
+        console.log = function(...args) {
+            originalLog(...args);
+            const msg = args.join(' ');
+            if (msg.startsWith('Nexus ›')) {
+                const text = msg.replace('Nexus ›', '');
+                consoleEl.innerHTML += `<div><span style="color: var(--secondary);">›</span> ${text}</div>`;
+            } else {
+                consoleEl.innerHTML += `<div style="color: #64748b;">${msg}</div>`;
+            }
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        };
+
+        function loadSnippet(type) {
+            const editor = document.getElementById('editor');
+            if (type === 'math') {
+                editor.value = "set x = 45\nset s = math.sin(x)\nset c = math.cos(x)\nout \"Sin: \" + s\nout \"Cos: \" + c\nout \"Hypot: \" + math.sqrt(math.pow(s,2) + math.pow(c,2))";
+            } else if (type === 'gui') {
+                editor.value = "gui.msg(\"Welcome to Nexus Ultra\")\nset color = gui.input(\"Enter a background color\")\ngui.bgcolor(color)\nout \"Theme updated to: \" + color";
+            } else if (type === 'api') {
+                editor.value = "out \"API Type: \" + api.type()\nout \"API Engine: \" + api.engine()\nout \"Is Web? \" + api.is_web()";
+            }
+            runCode();
+        }
+
+        window.onload = populateLibrary;
     </script>
 </body>
 </html>
