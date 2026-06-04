@@ -2,6 +2,16 @@
 
 A premium web-based environment for executing Nexus V4 scripts directly in the browser.
 
+## The Nexus WA Advantage
+
+| Language | Execution Speed | Syntax Simplicity | Lines of Code | Use Case |
+| --- | --- | --- | --- | --- |
+| NEXUS Titan | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Very Low | Rapid Dev / Logic |
+| NEXUS WA | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Very Low | Rapid Dev / Logic |
+| HTML | ⭐⭐⭐⭐ | ⭐⭐⭐ | Low | Basic Websites |
+| CSS | ⭐⭐⭐⭐ | ⭐ | High | Styles / Themes |
+| Java Script | ⭐⭐⭐ | ⭐ | Very High | Scripting |
+
 ## Features
 
 - Native JavaScript execution of .nx code.
